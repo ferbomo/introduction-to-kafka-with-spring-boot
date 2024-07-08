@@ -19,7 +19,7 @@ public class OrderCreatedHandler {
             groupId = "dispatch.order.created.consumer"
     )
     public void listen(String payload) {
-        log.info("Received message: payload: " + payload);
+        log.info("Received message: payload: {}", payload);
         dispatchService.process(payload);
     }
 }
