@@ -1,8 +1,5 @@
 package dev.lydtech.dispatch.integration;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import dev.lydtech.dispatch.DispatchConfiguration;
 import dev.lydtech.dispatch.message.DispatchPreparing;
 import dev.lydtech.dispatch.message.OrderCreated;
@@ -27,6 +24,9 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static java.util.UUID.randomUUID;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
@@ -44,19 +44,15 @@ public class OrderDispatchIntegrationTest {
 
     @Autowired
     private KafkaTemplate kafkaTemplate;
-
     @Autowired
     private EmbeddedKafkaBroker embeddedKafkaBroker;
-
     @Autowired
     private KafkaListenerEndpointRegistry registry;
-
     @Autowired
     private KafkaTestListener testListener;
 
     @Configuration
     static class TestConfig {
-
         @Bean
         public KafkaTestListener testListener() {
             return new KafkaTestListener();
@@ -87,7 +83,6 @@ public class OrderDispatchIntegrationTest {
     public void setUp() {
         testListener.dispatchPreparingCounter.set(0);
         testListener.orderDispatchedCounter.set(0);
-
         // Wait until the partitions are assigned.
         registry.getListenerContainers().stream().forEach(container ->
                 ContainerTestUtils.waitForAssignment(container, embeddedKafkaBroker.getPartitionsPerTopic()));
@@ -113,4 +108,5 @@ public class OrderDispatchIntegrationTest {
                 .setHeader(KafkaHeaders.TOPIC, topic)
                 .build()).get();
     }
+
 }
