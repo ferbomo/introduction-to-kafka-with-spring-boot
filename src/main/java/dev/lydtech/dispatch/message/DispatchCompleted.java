@@ -1,5 +1,6 @@
 package dev.lydtech.dispatch.message;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,9 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DispatchPreparing {
-    UUID orderId;
-}
+public class DispatchCompleted {
 
+    UUID orderId;
+    String date;
+
+}

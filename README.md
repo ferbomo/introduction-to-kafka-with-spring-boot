@@ -29,3 +29,50 @@ Plenty of useful information about your Introduction to Kafka with Spring Boot c
 ## Connect with the team at Lydtech Consulting
 * Visit us at [lydtechconsulting.com](https://www.lydtechconsulting.com/)
 * Visit our [LinkedIn](https://www.linkedin.com/company/lydtech-consulting) page
+
+## How to run in local
+
+## Run Kafka cluster
+In one terminal tab, go to your kafka installation folder. For ex:
+`cd /Users/john.doe/tools/kafka/kafka_2.12-3.7.0`
+
+### Generate cluster id
+Type this to generate the id:
+`KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"`
+
+Check that the id has been created typing:
+`echo $KAFKA_CLUSTER_ID`
+
+And you'll get something like:
+`qdJMY0YWRgGXTLbVSHF77w`
+
+### Generate log storage location
+Type this in the terminal to generate log storage location:
+`bin/kafka-storage.sh format -t $KAFKA_CLUSTER_ID -c config/kraft/server.properties`
+
+### Run server
+`bin/kafka-server-start.sh config/kraft/server.properties`
+
+### Stop server
+CTRL+C
+
+## Run the app
+Open one terminal tab and type:
+`mvn spring-boot:run`
+
+## Run the consumer
+Open another terminal tab and go to your kafka installation folder:
+`cd /Users/john.doe/tools/kafka/kafka_2.12-3.7.0`
+
+And type:
+`bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic order.created  --property print.key=true --property key.separator=:`
+
+## Run the producer
+Open another terminal tab and go to your kafka installation folder:
+`cd /Users/john.doe/tools/kafka/kafka_2.12-3.7.0`
+
+And type this to run it:
+`bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic order.created --property parse.key=true --property key.separator=:`
+
+And send messages:
+`"123":{"orderId":"74d08471-30ad-4ea8-905b-85763e51b264", "item":"82ce260f-fcd4-4cc2-acda-211f0a022042"}`
